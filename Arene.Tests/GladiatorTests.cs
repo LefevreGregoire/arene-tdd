@@ -24,14 +24,23 @@ public class GladiatorTests
     [InlineData(0)]
     [InlineData(7)]
 [Fact]
-    public void Attack_Self_ThrowsArgumentException()
+    public void Attack_Standard_OpponentLosesHealth()
     {
         // Arrange
+        // Attaquant : force 10. Adversaire : 100 PV, armure 5.
         var attacker = new Gladiator("Spartacus", 100, 10, 5);
-        var fakeDice = new FakeDice(3); // Un dé valide cette fois
+        var opponent = new Gladiator("Crixus", 100, 10, 5);
+        
+        // Dé de 3. 
+        // Calcul attendu : Dégâts = Dé(3) + Force(10) - Armure(5) = 8.
+        // PV restants attendus : 100 - 8 = 92.
+        var fakeDice = new FakeDice(3); 
 
-        // Act & Assert
-        Assert.Throws<ArgumentException>(() => attacker.Attack(attacker, fakeDice));
+        // Act
+        attacker.Attack(opponent, fakeDice);
+
+        // Assert
+        Assert.Equal(92, opponent.Health);
     }
 }
 

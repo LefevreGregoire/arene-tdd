@@ -34,4 +34,12 @@ public class Gladiator
 
         throw new NotImplementedException("To be done");
     }
+// Méthode interne pour réduire les points de vie
+    internal void TakeDamage(int damage)
+    {
+        if (damage > 0)
+        {
+            Health -= damage;
+        }
+    }
 }
