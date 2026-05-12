@@ -16,10 +16,8 @@ public class Gladiator
         Strength = strength;
         Armor = armor;
     }
-
-    public void Attack(Gladiator opponent, IDice dice)
+public void Attack(Gladiator opponent, IDice dice)
     {
-        // On vérifie que la cible n'est pas l'attaquant lui-même
         if (this == opponent)
         {
             throw new ArgumentException("Un gladiateur ne peut pas s'attaquer lui-même.", nameof(opponent));
@@ -32,8 +30,21 @@ public class Gladiator
             throw new ArgumentOutOfRangeException(nameof(dice), "La valeur du dé doit être comprise entre 1 et 6.");
         }
 
-        throw new NotImplementedException("To be done");
+        // Base des dégâts
+        var baseDamage = score + this.Strength;
+
+        // Si le dé fait 6, coup critique : la base est multipliée par 2
+        if (score == 6)
+        {
+            baseDamage *= 2;
+        }
+
+        // On soustrait l'armure de l'adversaire
+        var finalDamage = baseDamage - opponent.Armor;
+
+        opponent.TakeDamage(finalDamage);
     }
+
 // Méthode interne pour réduire les points de vie
     internal void TakeDamage(int damage)
     {
