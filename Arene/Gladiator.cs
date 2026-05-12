@@ -19,9 +19,14 @@ public class Gladiator
 
     public void Attack(Gladiator opponent, IDice dice)
     {
+        // On vérifie que la cible n'est pas l'attaquant lui-même
+        if (this == opponent)
+        {
+            throw new ArgumentException("Un gladiateur ne peut pas s'attaquer lui-même.", nameof(opponent));
+        }
+
         var score = dice.Roll();
         
-        // On vérifie que le dé n'est pas truqué
         if (score < 1 || score > 6)
         {
             throw new ArgumentOutOfRangeException(nameof(dice), "La valeur du dé doit être comprise entre 1 et 6.");
@@ -30,4 +35,3 @@ public class Gladiator
         throw new NotImplementedException("To be done");
     }
 }
-
