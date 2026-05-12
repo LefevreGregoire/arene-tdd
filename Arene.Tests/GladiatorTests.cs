@@ -23,15 +23,15 @@ public class GladiatorTests
     [Theory]
     [InlineData(0)]
     [InlineData(7)]
-    public void Attack_WithRiggedDice_ThrowsArgumentOutOfRangeException(int riggedRoll)
+[Fact]
+    public void Attack_Self_ThrowsArgumentException()
     {
         // Arrange
         var attacker = new Gladiator("Spartacus", 100, 10, 5);
-        var opponent = new Gladiator("Crixus", 100, 10, 5);
-        var fakeDice = new FakeDice(riggedRoll);
+        var fakeDice = new FakeDice(3); // Un dé valide cette fois
 
         // Act & Assert
-        Assert.Throws<ArgumentOutOfRangeException>(() => attacker.Attack(opponent, fakeDice));
+        Assert.Throws<ArgumentException>(() => attacker.Attack(attacker, fakeDice));
     }
 }
 
