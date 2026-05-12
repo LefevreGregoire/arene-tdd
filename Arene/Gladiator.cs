@@ -6,8 +6,8 @@ public class Gladiator
 {
     public string Name { get; }
     public int Health { get; private set; }
-    public int Strength { get; private set; }
-    public int Armor { get; private set; }
+    public int Strength { get; }
+    public int Armor { get; }
 
     public Gladiator(string name, int health, int strength, int armor)
     {
@@ -16,7 +16,7 @@ public class Gladiator
         Strength = strength;
         Armor = armor;
     }
-public void Attack(Gladiator opponent, IDice dice)
+    public void Attack(Gladiator opponent, IDice dice)
     {
         if (this == opponent)
         {
@@ -40,17 +40,15 @@ public void Attack(Gladiator opponent, IDice dice)
         }
 
         // On soustrait l'armure de l'adversaire
-        var finalDamage = baseDamage - opponent.Armor;
+        var finalDamage = Math.Max(baseDamage - opponent.Armor, 0);
 
         opponent.TakeDamage(finalDamage);
     }
 
-// Méthode interne pour réduire les points de vie
+    // Méthode interne pour réduire les points de vie
     internal void TakeDamage(int damage)
     {
         if (damage > 0)
-        {
-            Health -= damage;
-        }
+            Health = Math.Max(Health - damage, 0);
     }
 }
